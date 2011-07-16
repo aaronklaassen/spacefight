@@ -22,12 +22,19 @@ package
 			initSprite();
 			setHitbox(sprite.width, sprite.height);
 			
+			shieldFrameOffset = 1;
+			_maxShields = 800;
+			_shields = 800;
+			
 			projSpawnPoints = new Array(new Point(13, 110));
 		}
 		
 		override protected function initSprite():void
 		{
 			mask = new Pixelmask(SPIRE);
+			
+			shieldSprite = new Spritemap(SPIRE, 26, 120);
+			shieldSprite.alpha = min_shield_alpha;
 			
 			sprite = new Spritemap(SPIRE, 26, 120);
 			sprite.add('normal', [0], 4);

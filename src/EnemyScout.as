@@ -22,6 +22,8 @@ package
 			initSprite();
 			setHitbox(sprite.width, sprite.height);
 			
+			shieldFrameOffset = 1;
+			
 			projSpawnPoints = new Array(new Point(3, 35),
 										new Point(49, 35));
 		}
@@ -29,6 +31,9 @@ package
 		override protected function initSprite():void
 		{
 			mask = new Pixelmask(SCOUT);
+			
+			shieldSprite = new Spritemap(SCOUT, 52, 70);
+			shieldSprite.alpha = min_shield_alpha;
 			
 			sprite = new Spritemap(SCOUT, 52, 70);
 			sprite.add('normal', [0], 4);

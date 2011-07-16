@@ -117,7 +117,7 @@ package
 			e3.x = 300;
 			e3.y = 150;
 			e3.ySpeed = 0;
-			e3.firingDelay = 1;
+			e3.firingDelay = 5;
 			add(e3);
 			*/
 			

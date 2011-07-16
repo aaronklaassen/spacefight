@@ -26,9 +26,11 @@ package
 		
 		protected static const MAX_SHIELD_ALPHA:Number = 0.85;
 		protected static const SHIELD_ALPHA_DELTA:Number = -0.04; // per frame
+		protected var min_shield_alpha:Number = 0;
 		
 		protected var sprite:Spritemap;
 		protected var shieldSprite:Spritemap;
+		protected var shieldFrameOffset:int;
 		private var shieldHitSound:Sfx;
 		private var hitSound:Sfx;
 		
@@ -89,17 +91,27 @@ package
 			return _maxShields;
 		}
 		
+		public function set maxShields(s:int):void
+		{
+			_maxShields = s;
+		}
+		
 		public function takeDamage(damage:int, doneBy:GameEntity = null):void
 		{
 			if (shieldSprite && shields > 0)
 			{
 				shieldSprite.alpha = MAX_SHIELD_ALPHA;
-				shieldHitSound.play();
+				
+				if (this is Player)
+					shieldHitSound.play();
 			}
 			
 			shields -= damage;
 			if (shields < 0)
 			{
+				if (shieldSprite)
+					shieldSprite.alpha = 0;
+				
 				_health -= Math.abs(shields);
 				shields = 0;
 				hitSound.play(0.2);
@@ -132,7 +144,7 @@ package
 			}
 			
 			
-			if (shieldSprite)
+			if (shieldSprite && shieldSprite.alpha > min_shield_alpha)
 				shieldSprite.alpha += SHIELD_ALPHA_DELTA;
 		}
 		
@@ -142,8 +154,7 @@ package
 			
 			if (shieldSprite)
 			{
-				// TODO: this offset won't always be the same, depending on entity/spritesheet.
-				shieldSprite.frame = sprite.frame + 14;
+				shieldSprite.frame = sprite.frame + shieldFrameOffset;
 				var target:BitmapData = renderTarget ? renderTarget : FP.buffer;
 				shieldSprite.render(target, new Point(x, y), FP.world.camera);
 			}

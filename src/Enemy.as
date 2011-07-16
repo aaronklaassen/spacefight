@@ -45,7 +45,7 @@ package
 			_health = 100;
 			pointValue = 100;
 			damage = 5;
-			
+			//min_shield_alpha = 0.3;
 			firingSound = new Sfx(LASER_SND);
 		}
 		
@@ -140,7 +140,7 @@ package
 		{
 			var item:Item;
 			
-			var type:int = Main.random(1, 3);
+			var type:int = Main.random(1, 5);
 			if (type == 1) // drop a weapon
 			{
 				var w:int = Main.random(1, 4);
@@ -163,16 +163,9 @@ package
 					item = new BonusPoints(500);
 				else
 					item = new BonusPoints(250);
-				
-				
 			}
 
 			return item;
-		}
-		
-		override public function toString():String
-		{
-			return super.toString() + ': type ' + enemyType;
 		}
 	}
 

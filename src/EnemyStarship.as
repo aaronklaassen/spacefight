@@ -27,6 +27,7 @@ package
 			pointValue = 200;
 			damage = 20;
 			projSpawnPoints = new Array(new Point(0, 90));
+			shieldFrameOffset = 1;
 			
 			initSprite();
 			setHitbox(sprite.width, sprite.height);
@@ -35,7 +36,10 @@ package
 		override protected function initSprite():void
 		{
 			mask = new Pixelmask(STARSHIP);
-				
+			
+			shieldSprite = new Spritemap(STARSHIP, 63, 128);
+			shieldSprite.alpha = min_shield_alpha;
+			
 			sprite = new Spritemap(STARSHIP, 63, 128);
 			sprite.add('normal', [0], 4);
 			

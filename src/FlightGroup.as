@@ -53,6 +53,8 @@ package
 				xSpeed = -xSpeed;
 			
 			var firingDelay:int = Main.random(2, 4);
+			var shields:int = givenShields(Main.gametime, eType);
+			
 			for each (var fgPos:Point in positions)
 			{
 				var e:Enemy = newEnemy(eType);
@@ -61,6 +63,9 @@ package
 				
 				e.xSpeed = xSpeed;
 				e.ySpeed = ySpeed;
+				
+				e.maxShields = shields;
+				e.shields = shields;
 				
 				e.firingDelay = firingDelay;
 				
@@ -166,6 +171,23 @@ package
 			}
 			
 			return null;
+		}
+		
+		private function givenShields(gametime:Number, eType:int):int
+		{
+			var shield:int = 0;
+			var minutes:Number = gametime / 60;
+		
+			var maybe:int = Main.random(1, 5);
+			if (maybe <= minutes)
+			{
+				shield = 50 * minutes;
+			}
+			
+			if (eType == Enemy.TYPE_STARSHIP)
+				shield *= 2;
+
+			return shield;
 		}
 		
 		public function get rect():Rectangle

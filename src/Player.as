@@ -68,7 +68,9 @@ package
 			_maxShields = 300;
 			_shields = 300;
 			shieldRegenRate = 1;
+			shieldFrameOffset = 14;
 			score = 0;
+			
 			
 			hud = new HUD(this, gameMode);
 			
