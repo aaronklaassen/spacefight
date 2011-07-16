@@ -46,7 +46,7 @@ package
 				graphic = null;
 			} else {
 				icon.play('floating');
-				
+
 				var play:Player = collide('player', x, y) as Player;
 				if (play)
 				{

@@ -150,7 +150,7 @@ package
 			return points;
 		}
 		
-		private function newEnemy(eType:int)
+		private function newEnemy(eType:int):Enemy
 		{
 			switch (eType)
 			{
@@ -164,6 +164,8 @@ package
 					return new EnemyStarship();
 					break;
 			}
+			
+			return null;
 		}
 		
 		public function get rect():Rectangle

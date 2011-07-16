@@ -155,8 +155,18 @@ package
 					item = new AutoLaser();
 			} else if (type == 2) { // drop some points
 				
+				var s:int = Main.random(1, 10);
+				
+				if (s == 1)
+					item = new BonusPoints(1000);
+				else if (s > 1 && s <= 5)
+					item = new BonusPoints(500);
+				else
+					item = new BonusPoints(250);
+				
+				
 			}
-			
+
 			return item;
 		}
 		
