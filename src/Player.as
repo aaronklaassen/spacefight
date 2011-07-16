@@ -38,8 +38,9 @@ package
 		private var hud:HUD;
 		
 		private var _playerNum:int;
+		private var _score:int;
 		public var lives:int;
-		public var score:int;
+		
 		
 		private var lastEnemyCollision:Number;
 		
@@ -114,6 +115,7 @@ package
 		
 		private function initControls():void
 		{
+			// TODO: if winnitron
 			if (playerNum == 1)
 			{
 				KEY_UP = Key.UP;
@@ -255,6 +257,23 @@ package
 		public function get playerNum():int
 		{
 			return _playerNum;
+		}
+		
+		public function get score():int
+		{
+			return _score;
+		}
+		
+		public function set score(newScore:int):void
+		{
+			var newLifeEvery:int = 50000;
+			if (Math.floor(newScore / newLifeEvery) > Math.floor(_score / newLifeEvery))
+			{
+				lives++;
+				// TODO: play a sweet sound
+			}
+			
+			_score = newScore;
 		}
 		
 		public function addWeapon(newWeapon:Weapon):void
