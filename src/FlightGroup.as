@@ -32,7 +32,7 @@ package
 				eType = Main.random(1, 2);
 				
 			
-			protoEnemy = new Enemy(eType);
+			protoEnemy = newEnemy(eType);
 			
 			if (eType == Enemy.TYPE_STARSHIP)
 			{
@@ -55,7 +55,7 @@ package
 			var firingDelay:int = Main.random(2, 4);
 			for each (var fgPos:Point in positions)
 			{
-				var e:Enemy = new Enemy(eType);
+				var e:Enemy = newEnemy(eType);
 				e.x = rect.x + fgPos.x;
 				e.y = rect.y + fgPos.y;
 				
@@ -148,6 +148,22 @@ package
 			
 			
 			return points;
+		}
+		
+		private function newEnemy(eType:int)
+		{
+			switch (eType)
+			{
+				case Enemy.TYPE_SCOUT:
+					return new EnemyScout();
+					break;
+				case Enemy.TYPE_SPIRE:
+					return new EnemySpire();
+					break;
+				case Enemy.TYPE_STARSHIP:
+					return new EnemyStarship();
+					break;
+			}
 		}
 		
 		public function get rect():Rectangle

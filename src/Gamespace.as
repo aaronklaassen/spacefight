@@ -53,7 +53,7 @@ package
 			
 			freeCamera = false;
 			
-			nextFGspawn = 5; // increase this to add some delay before the first one
+			nextFGspawn = 1; // increase this to add some delay before the first one
 			betweenSpawns = 10;
 			recentSpawnRects = new Array();
 			
@@ -100,7 +100,7 @@ package
 			//m3.y = 300;
 			//add(m3);
 			
-			
+			/*
 			var e:Enemy = new Enemy(1);
 			e.x = 100;
 			e.y = 50;
@@ -113,11 +113,13 @@ package
 			e2.ySpeed = 0;
 			add(e2);
 			
-			var e3:Enemy = new Enemy(1);
+			var e3:Enemy = new EnemySpire();
 			e3.x = 300;
 			e3.y = 150;
 			e3.ySpeed = 0;
+			e3.firingDelay = 1;
 			add(e3);
+			*/
 			
 		}
 		

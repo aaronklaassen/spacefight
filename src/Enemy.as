@@ -13,79 +13,44 @@ package
 	{
 		
 		public static const TYPE_SCOUT:int = 1;
-		[Embed(source = '../assets/images/enemy_scout.png')]
-		private const SCOUT:Class;
-		
 		public static const TYPE_SPIRE:int = 2;
-		[Embed(source = '../assets/images/enemy_spire.png')]
-		private const SPIRE:Class;
-		
 		public static const TYPE_STARSHIP:int = 3;
-		[Embed(source = '../assets/images/enemy_starship.png')]
-		private const STARSHIP:Class;
-
 		
 		[Embed(source = '../assets/images/littlelaser_bolt.png')]
 		private const LASER_PROJ:Class;
 		[Embed(source = '../assets/sounds/mid_laser.mp3')]
 		private const LASER_SND:Class;
 		
-		[Embed(source = '../assets/images/homing_flare.png')]
-		private const FLARE_PROJ:Class;
+		protected var weapon:Weapon;
+		protected var _firingDelay:Number;
+		protected var nextFiringTime:Number;
+		protected var firingSound:Sfx;
 		
+		protected var enemyType:int;
+		protected var pointValue:int;
 		
-		private var weapon:Weapon;
-		private var _firingDelay:Number;
-		private var nextFiringTime:Number;
-		private var firingSound:Sfx;
+		protected var projSpawnPoints:Array;
 		
-		private var enemyType:int;
-		private var pointValue:int;
+		protected var damage:int;
 		
 		public function Enemy(etype:int = 1) 
 		{
 			super();
 			enemyType = etype;
 			
-			initSprite();
-			setHitbox(sprite.width, sprite.height);
 			layer = LAYER_ENEMIES;
 			type = 'enemy';
 			
 			_maxHealth = 100;
 			_health = 100;
-			
-			if (enemyType == TYPE_STARSHIP)
-				_health = 500;
-			
 			pointValue = 100;
+			damage = 5;
 			
 			firingSound = new Sfx(LASER_SND);
 		}
 		
-		private function initSprite():void
+		protected function initSprite():void
 		{
-			
-			if (enemyType == TYPE_SCOUT)
-			{
-				mask = new Pixelmask(SCOUT);
-				
-				sprite = new Spritemap(SCOUT, 52, 70);
-				sprite.add('normal', [0], 4);
-			} else if (enemyType == TYPE_SPIRE) {
-				mask = new Pixelmask(SPIRE);
-				
-				sprite = new Spritemap(SPIRE, 26, 120);
-				sprite.add('normal', [0], 4);
-			} else if (enemyType == TYPE_STARSHIP) {
-				mask = new Pixelmask(STARSHIP);
-				
-				sprite = new Spritemap(STARSHIP, 63, 128);
-				sprite.add('normal', [0], 4);
-			}
-			
-			sprite.play('normal');
-			graphic = sprite;
 		}
 		
 		public function set firingDelay(fd:int):void
@@ -107,9 +72,9 @@ package
 				FP.world.add(new Explosion(Explosion.SIZE_MED, x, y));
 				FP.world.remove(this);
 				
-				if (Main.random(1, 100) <= 10)
+				var powerup:Item = chooseDrop();
+				if (powerup)
 				{
-					var powerup:Item = new LittleLaser();
 					powerup.x = x;
 					powerup.y = y;
 					FP.world.add(powerup);
@@ -136,67 +101,29 @@ package
 			}
 		}
 		
-		private function fireWeapon():void
-		{
-			var projSpawnPoints:Array;
-			
-			if (enemyType == TYPE_SCOUT)
-				projSpawnPoints = new Array(new Point(3, 35),
-											new Point(49, 35));
-			else if (enemyType == TYPE_SPIRE)
-				projSpawnPoints = new Array(new Point(13, 110));
-			else if (enemyType == TYPE_STARSHIP)
-				projSpawnPoints = new Array(new Point(0, 90));
-			else
-				projSpawnPoints = new Array(new Point(0, 0)); // this shouldn't ever happen
-			
-			var damage:int;
+		protected function fireWeapon():void
+		{				
 			var speed:int;
 			var spr:Spritemap;
 			var p:Projectile;
 			
-			if (enemyType == TYPE_STARSHIP)
+			speed = ySpeed + 100;
+			for (var j:int = 0; j < projSpawnPoints.length; j++)
 			{
-				damage = 20;
-				speed = ySpeed + 75;
+				spr = new Spritemap(LASER_PROJ, 10, 36);
+				spr.add('normal', [0]);
+				spr.play('normal');
+				spr.color = 0xff3c3c;
 				
-				for (var i:int = 0; i < projSpawnPoints.length; i++)
-				{
-					spr = new Spritemap(FLARE_PROJ, 64, 64);
-					spr.add('normal', [0, 1, 2, 3, 2, 1], 8);
-					spr.play('normal');
-					
-					var target:Player = closestPlayer();
-					var dist:int = distanceFrom(target);
-					
-					var pxSpeed:int = speed * (target.x - x) / dist;
-					var pySpeed:int = speed * (target.y - y) / dist;
-					
-					p = new Projectile(spr, projSpawnPoints[i] as Point, this, pxSpeed, pySpeed, damage);
-					p.rotating = true;
-					FP.world.add(p);
-				}
+				p = new Projectile(spr, projSpawnPoints[j] as Point, this, 0, speed, damage);
 				
-			} else {
-				damage = 5;
-				speed = ySpeed + 100;
-				for (var j:int = 0; j < projSpawnPoints.length; j++)
-				{
-					spr = new Spritemap(LASER_PROJ, 10, 36);
-					spr.add('normal', [0]);
-					spr.play('normal');
-					spr.color = 0xff3c3c;
-					
-					p = new Projectile(spr, projSpawnPoints[j] as Point, this, 0, speed, damage);
-					
-					
-					FP.world.add(p);
-				}
-				firingSound.play(0.3);
+				
+				FP.world.add(p);
 			}
+			firingSound.play(0.3);
 		}
 		
-		private function closestPlayer():Player
+		protected function closestPlayer():Player
 		{
 			var gs:Gamespace = FP.world as Gamespace;
 			
@@ -206,8 +133,31 @@ package
 			} else {
 				
 				return distanceFrom(gs.getPlayer(1)) > distanceFrom(gs.getPlayer(2)) ? gs.getPlayer(1) : gs.getPlayer(2);
+			}
+		}
+		
+		protected function chooseDrop():Item
+		{
+			var item:Item;
+			
+			var type:int = Main.random(1, 3);
+			if (type == 1) // drop a weapon
+			{
+				var w:int = Main.random(1, 4);
+				
+				if (w == 1)
+					item = new Missiles();
+				else if (w == 2)
+					item = new LittleLaser();
+				else if (w == 3)
+					item = new LightningGun();
+				else if (w == 4)
+					item = new AutoLaser();
+			} else if (type == 2) { // drop some points
 				
 			}
+			
+			return item;
 		}
 		
 		override public function toString():String
