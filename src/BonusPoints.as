@@ -45,6 +45,7 @@ package
 			(owner as Player).score += pointValue;
 			FP.world.remove(this);
 			
+			FP.world.add(new FloatingText('' + pointValue, x, y, 0xFFF835));		
 		}
 		
 	}

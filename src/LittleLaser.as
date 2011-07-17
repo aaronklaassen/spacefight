@@ -21,6 +21,8 @@ package
 		{
 			super(own);
 			
+			name = 'Laser'
+			
 			icon = new Spritemap(LASER_ICON, 33, 40);
 			icon.add('floating', [0, 1], 4, true);
 			icon.add('hud_1', [0], 1, true);
@@ -58,8 +60,7 @@ package
 			if (isCool())
 			{
 				firingSound.play(0.4);
-				
-			
+								
 				for (var i:int = 0; i < 2 * level; i++)
 				{
 					var bolt:Spritemap = new Spritemap(LASER_PROJ, 8, 18);

@@ -97,16 +97,19 @@ package
 			add(m);
 			
 			
+			var m2:AutoLaser = new AutoLaser();
 			//var m2:Missiles = new Missiles();
 			//var m2:LittleLaser = new LittleLaser();
-			//m2.x = 500;
-			//m2.y = 300;
-			//add(m2);
-			//
+			m2.x = 500;
+			m2.y = 300;
+			add(m2);
+			
+			
+			var m3:AutoLaser = new AutoLaser();
 			//var m3:LightningGun = new LightningGun();
-			//m3.x = 600;
-			//m3.y = 300;
-			//add(m3);
+			m3.x = 600;
+			m3.y = 300;
+			add(m3);
 			
 			/*
 			var e:Enemy = new Enemy(1);
@@ -295,7 +298,7 @@ package
 		{
 			for (var i:int = 0; i < highScores.length; i++)
 			{
-				if (playerScore > highScores[i].points)
+				if (playerScore > highScores[i].score)
 					return i + 1;
 			}
 			

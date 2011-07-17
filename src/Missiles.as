@@ -22,6 +22,8 @@ package
 		{
 			super(own);
 			
+			name = 'Missiles'
+			
 			_cooldown = 0.3;
 			damage = 25;
 			

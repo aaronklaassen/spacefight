@@ -29,6 +29,8 @@ package
 		{
 			super(own);
 			
+			name = 'Auto Laser'
+			
 			icon = new Spritemap(AUTOLASER_ICON, 35, 35);
 			icon.add('floating', [0, 1], 4, true);
 			graphic = icon;
@@ -49,7 +51,6 @@ package
 			if (owner)
 			{
 				fire();
-				
 				_cooldown = 1.5 / level;
 			}
 		}
@@ -58,10 +59,12 @@ package
 		{
 			if (isCool())
 			{
+				
 				target = FP.world.nearestToEntity('enemy', owner, true) as GameEntity;
 				
 				if (target && owner.distanceFrom(target) <= RANGE)
 				{
+					
 					firingSound.play(0.6);
 					target.takeDamage(damage * level, owner);
 					

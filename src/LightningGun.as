@@ -14,12 +14,18 @@ package
 		[Embed(source = '../assets/images/lightning_icon.png')]
 		private const LIGHTNING_ICON:Class;
 	
+		[Embed(source = '../assets/sounds/electricity.mp3')]
+		private const BOLT_SND:Class;
+		
 		private static const MAX_JUMP_DIST:int = 350;
 		private var target:GameEntity;
+		private var boltSnd:Sfx;
 		
 		public function LightningGun(own:GameEntity = null) 
 		{
 			super(own);
+			
+			name = 'Lightning Cannon'
 			
 			icon = new Spritemap(LIGHTNING_ICON, 32, 32);
 			icon.add('floating', [0, 1], 4, true);
@@ -28,12 +34,14 @@ package
 			_cooldown = 0.5;
 			damage = 50;
 			
+			boltSnd = new Sfx(BOLT_SND);
 		}
 		
 		override public function fire():void
 		{
 			if (isCool())
 			{
+				boltSnd.play(0.3);
 				
 				var jumpCount:int = 0;
 				var maxJumps:int = 2 * level + 1;

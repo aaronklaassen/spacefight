@@ -17,9 +17,6 @@ package
 		[Embed(source = '../assets/images/lightning.png')]
 		private const LIGHTNING:Class;
 		
-		[Embed(source = '../assets/sounds/electricity.mp3')]
-		private const HIT_SND:Class;
-		
 		// These are NOT adjusted for the dimensions of the sprite. Assume the sprite is a line.
 		private var startPoint:Point;
 		private var endPoint:Point;
@@ -39,9 +36,6 @@ package
 			
 			x = startPoint.x - sprite.width / 2;
 			y = startPoint.y - sprite.height;
-			
-			hitSound = new Sfx(HIT_SND);
-			hitSound.play(0.5);
 		}
 		
 		private function initSprite():void

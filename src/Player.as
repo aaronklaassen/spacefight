@@ -69,7 +69,7 @@ package
 			_maxHealth = 100;
 			_health = 100;
 			_maxShields = 300;
-			_shields = 0;
+			_shields = 300;
 			shieldRegenRate = 1;
 			shieldFrameOffset = 14;
 			score = 0;
@@ -288,6 +288,8 @@ package
 			// Uncommenting the below line will limit players to a single weapon at a time.
 			//weapons = new Vector.<Weapon>;
 			
+			var level:String = '';
+			
 			var found:Boolean = false;
 			for each (var current:Weapon in weapons)
 			{
@@ -295,11 +297,16 @@ package
 				{
 					found = true;
 					current.upgrade();
+					level = ' ' + current.powerLevel;
 				}
 			}
 			
-			if (!found)
+			if (found)
+				FP.world.remove(newWeapon);
+			else
 				weapons.push(newWeapon);
+				
+			FP.world.add(new FloatingText(newWeapon.name + level + '!', newWeapon.x, newWeapon.y, 0xE63100));
 		}
 		
 		override public function get invulnerable():Boolean

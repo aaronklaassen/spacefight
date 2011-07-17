@@ -16,6 +16,7 @@ package
 		protected var projSpawnPoints:Array;
 		protected var projectileSpeed:int;
 		
+		public var name:String;
 		protected var damage:int; // per projectile
 		
 		protected var firingSound:Sfx;
@@ -31,6 +32,10 @@ package
 			setHitbox(60, 60);
 		}
 		
+		public function get powerLevel():int
+		{
+			return level;
+		}
 		
 		public function isCool():Boolean
 		{
@@ -44,6 +49,7 @@ package
 		
 		public override function pickup():void
 		{
+			
 			(owner as Player).addWeapon(this);
 			// HUD weapon box location:
 			/*
