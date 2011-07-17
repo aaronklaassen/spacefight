@@ -5,6 +5,7 @@ package
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Spritemap;
 	import net.flashpunk.FP;
+	import net.flashpunk.utils.Draw;
 	
 	import flash.geom.Point;
 	import flash.display.BitmapData;
@@ -158,6 +159,8 @@ package
 				var target:BitmapData = renderTarget ? renderTarget : FP.buffer;
 				shieldSprite.render(target, new Point(x, y), FP.world.camera);
 			}
+			
+			//Draw.hitbox(this, true, 0xFF00FF);
 		}
 		
 		public function get invulnerable():Boolean

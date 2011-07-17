@@ -42,6 +42,11 @@ package
 			return level;
 		}
 		
+		public function set powerLevel(pl:int):void
+		{
+			level = pl;
+		}
+		
 		public function isCool():Boolean
 		{
 			return lastFiringTime + cooldown <= Main.gametime;
@@ -56,6 +61,8 @@ package
 		{
 			
 			(owner as Player).addWeapon(this);
+			x = owner.x;
+			y = owner.y;
 			// HUD weapon box location:
 			/*
 			if ((owner as Player).playerNum == 1)

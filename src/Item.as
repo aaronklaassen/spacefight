@@ -20,6 +20,7 @@ package
 
 		protected var pickupSound:Sfx;
 		
+		public var floating:Boolean = true;
 		private var floatRadius:int = 10;
 		private var floatdX:Number = -0.2;
 		private var floatdY:Number = -1;
@@ -53,6 +54,8 @@ package
 				//icon.play('hud_' + level);
 				graphic = null;
 			} else {
+				graphic = icon;
+				collidable = true;
 				icon.play('floating');
 
 				var play:Player = collide('player', x, y) as Player;
@@ -66,14 +69,16 @@ package
 				if (!onCamera)
 					FP.world.remove(this);
 				
-				icon.x += floatdX;
-				if (icon.x <= -floatRadius || icon.x >= floatRadius)
+				if (floating)
 				{
-					floatdX = -floatdX;
-					floatdY = -floatdY;
+					icon.x += floatdX;
+					if (icon.x <= -floatRadius || icon.x >= floatRadius)
+					{
+						floatdX = -floatdX;
+						floatdY = -floatdY;
+					}
+					icon.y = Math.sqrt(floatRadius * floatRadius - icon.x * icon.x) * floatdY;
 				}
-				icon.y = Math.sqrt(floatRadius * floatRadius - icon.x * icon.x) * floatdY;
-			
 				
 				var age:Number = Main.gametime - createdAt;
 				icon.alpha += flashDelta * age / lifetime;
@@ -85,6 +90,11 @@ package
 					FP.world.remove(this);
 				}
 			}
+		}
+		
+		public function resetCreatedAt():void
+		{
+			createdAt = Main.gametime;
 		}
 		
 		public function pickup():void { }

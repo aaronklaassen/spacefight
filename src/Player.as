@@ -209,10 +209,31 @@ package
 				
 				FP.world.add(new Explosion(Explosion.SIZE_MED, x, y));
 				FP.world.remove(this);
-				FP.world.removeList(weapons);
+				//FP.world.removeList(weapons);
 				
 				if (lives > 0)
 				{
+					for (var i:int = 1; i < weapons.length; i++)
+					{
+						weapons[i].powerLevel = 1;
+						weapons[i].owner = null;
+						weapons[i].resetCreatedAt();
+						weapons[i].floating = false;
+						
+						weapons[i].x = x;
+						weapons[i].y = y;
+						weapons[i].xSpeed = Main.random(15, 20);
+						weapons[i].ySpeed = Main.random(15, 20);
+						
+						var n:int = Main.random(1, 2);
+						if (n == 1)
+							weapons[i].xSpeed = -weapons[i].xSpeed;
+							
+						n = Main.random(1, 2);
+						if (n == 1)
+							weapons[i].ySpeed = -weapons[i].ySpeed;
+					}
+					
 					var resurrected:Player = new Player(playerNum, lives - 1, true);
 					
 					var si:int = Player.whichStartPoint(playerNum, (FP.world as Gamespace).gameMode);
@@ -322,8 +343,9 @@ package
 				FP.world.remove(newWeapon);
 			else
 				weapons.push(newWeapon);
-				
-			FP.world.add(new FloatingText(newWeapon.name + level + '!', newWeapon.x, newWeapon.y, 0xE63100));
+			
+			if (weapons.length > 1) // first weapon (i.e. missiles on respawn)
+				FP.world.add(new FloatingText(newWeapon.name + level + '!', newWeapon.x, newWeapon.y, 0xE63100));
 		}
 		
 		override public function get invulnerable():Boolean
