@@ -48,6 +48,9 @@ package
 				
 				projSpawnPoints[2] = new Point(0, 40);
 				projSpawnPoints[3] = new Point(55, 40);
+				
+				projSpawnPoints[4] = new Point(25, 24);
+				projSpawnPoints[5] = new Point(33, 24);
 			}
 		}
 		
@@ -56,7 +59,7 @@ package
 			if (isCool())
 			{
 				firingSound.play();
-				for (var i:int = 0; i < Math.min(4, 2 * level); i++)
+				for (var i:int = 0; i < Math.min(6, 2 * level); i++)
 				{
 					var spr:Spritemap = new Spritemap(MISSILE_PROJ, 10, 36);
 					spr.add('normal', [0, 1, 2, 1], 16, true);

@@ -9,6 +9,9 @@ package
 	 */
 	public class Weapon extends Item
 	{
+		[Embed(source = '../assets/sounds/Powerup21.mp3')]
+		private static const WEAPON_PICKUP:Class;
+		
 		public static const MAX_LEVEL:int = 3;
 		
 		protected var lastFiringTime:Number;
@@ -30,6 +33,8 @@ package
 			projSpawnPoints = new Array();
 			projectileSpeed = 0;
 			setHitbox(60, 60);
+			
+			pickupSound = new Sfx(WEAPON_PICKUP);
 		}
 		
 		public function get powerLevel():int

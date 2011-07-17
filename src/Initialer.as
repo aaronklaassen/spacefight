@@ -95,7 +95,7 @@ package
 				if (Input.released(KEY_RIGHT))
 				{
 					selectedInit = (selectedInit + 1) % initials.length;
-					//selectSnd.play();
+					selectSnd.play();
 				}
 				
 				if (Input.released(KEY_LEFT))
@@ -104,7 +104,7 @@ package
 					if (selectedInit < 0)
 						selectedInit = initials.length - 1;
 						
-					//selectSnd.play();
+					selectSnd.play();
 				}
 				
 				var curIndex:int = ALPHABET.search(initials[selectedInit].text);
@@ -113,7 +113,7 @@ package
 					curIndex = (curIndex + 1) % ALPHABET.length;
 					initials[selectedInit].text = ALPHABET.slice(curIndex, curIndex + 1);
 					
-					//selectSnd.play();
+					selectSnd.play();
 				}
 				
 				if (Input.released(KEY_UP))
@@ -123,11 +123,11 @@ package
 						curIndex = ALPHABET.length - 1;
 						
 					initials[selectedInit].text = ALPHABET.slice(curIndex, curIndex + 1);
-					//selectSnd.play();
+					selectSnd.play();
 				}
 			}
 			
-			if (Input.check(KEY_ENTER))
+			if (Input.check(KEY_ENTER) && Main.gametime > createdAt + 5 && enteredInitials() > 0)
 			{
 				finished = true;
 				//selectSnd.play();
@@ -174,6 +174,16 @@ package
 			}
 			
 			return str;
+		}
+		
+		private function enteredInitials():int
+		{
+			var sum:int = 0;
+			for each (var init:Text in initials)
+			{
+				sum += init.text == '_' ? 0 : 1;
+			}
+			return sum;
 		}
 		
 	}

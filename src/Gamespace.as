@@ -92,7 +92,7 @@ package
 			}
 			
 			
-			players[1].score = 1540001; // TODO: temp test
+			//players[1].score = 1540001; // TODO: temp test
 			
 			
 			//var m:Missiles = new Missiles();
@@ -227,7 +227,6 @@ package
 				showHighScores();
 			}
 			
-		
 		}
 		
 		public function get playerCount():int
