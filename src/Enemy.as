@@ -18,7 +18,7 @@ package
 		
 		[Embed(source = '../assets/images/littlelaser_bolt.png')]
 		private const LASER_PROJ:Class;
-		[Embed(source = '../assets/sounds/mid_laser.mp3')]
+		[Embed(source = '../assets/sounds/Laser_Shoot4.mp3')]
 		private const LASER_SND:Class;
 		
 		protected var weapon:Weapon;

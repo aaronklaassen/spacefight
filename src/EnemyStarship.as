@@ -50,7 +50,6 @@ package
 		
 		override protected function fireWeapon():void
 		{
-			var damage:int;
 			var speed:int;
 			var spr:Spritemap;
 			var p:Projectile;

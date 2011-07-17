@@ -4,6 +4,7 @@ package
 	import flash.net.getClassByAlias;
 	import net.flashpunk.graphics.Spritemap;
 	import net.flashpunk.masks.Pixelmask;
+	import net.flashpunk.Sfx;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.FP;
@@ -19,6 +20,9 @@ package
 	{
 		[Embed(source = '../assets/images/players.png')]
 		public static const PLANE:Class;
+		
+		[Embed(source = '../assets/sounds/alarm.mp3')]
+		public static const ALARM:Class;
 		
 		public static const START_POINTS:Array = new Array(new Point(480, 640), new Point(720, 640), new Point(210, 640));
 		private static const MAX_SPEED:Number = 450; // pix/sec
@@ -44,8 +48,9 @@ package
 		public var hasDied:Boolean = false;
 		public var initialer:Initialer;
 		
-		
 		private var lastEnemyCollision:Number;
+		
+		private var alarmSiren:Sfx;
 		
 		public function Player(player:int = 1, lives:int = 3, flicker:Boolean = false, gameMode:int = 0) 
 		{
@@ -82,6 +87,8 @@ package
 				alphaDelta = 0.03;
 			else
 				alphaDelta = 0;
+				
+			alarmSiren = new Sfx(ALARM);
 		}
 		
 		private function initSprite():void
@@ -174,22 +181,31 @@ package
 				lastEnemyCollision = Main.gametime;
 			}
 			
-			if (health / maxHealth <= 0.2)
+			if (health / maxHealth <= 0.25)
 			{
+				if (!alarmSiren.playing)
+					alarmSiren.loop(0.5);
+				
 				if (Main.random(0, 100) <= 5)
 				{
 					var ex:int = Main.random(x, x + width);
 					var ey:int = Main.random(y, y + height);
 					var expl:Explosion = new Explosion(Explosion.SIZE_SMALL, ex, ey, Main.random(0.5, 0.9));
 					FP.world.add(expl);
+					
+					
 				}
 				// TODO: add some smoke, too.
 				
+			} else {
+				alarmSiren.stop();
 			}
 
 		
 			if (health <= 0)
 			{
+				alarmSiren.stop();
+				
 				FP.world.add(new Explosion(Explosion.SIZE_MED, x, y));
 				FP.world.remove(this);
 				FP.world.removeList(weapons);
