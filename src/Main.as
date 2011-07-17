@@ -26,7 +26,7 @@
 			_gametime = 0;
 			//FP.world = new Gamespace(2);
 			pauseGame = false;
-			FP.world = new Menu(this);
+			FP.world = new Menu();
 		}
 		
 		public static function fps():int

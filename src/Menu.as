@@ -23,14 +23,10 @@ package
 		
 		protected var buttons:Array;
 		protected var selectedIndex:int;
-		protected var game:Main;
-
 		private var buttonSound:Sfx;
 		
-		public function Menu(parent:Main) 
-		{
-			game = parent;
-			
+		public function Menu() 
+		{			
 			addGraphic(new Backdrop(TITLE_SCREEN, false, false), 1000, 0, 0);
 			
 			buttons = new Array(new Text('1 Player', 0, 0, 200, 30),

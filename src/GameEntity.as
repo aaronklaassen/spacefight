@@ -1,6 +1,7 @@
 package  
 {
 	
+	import flash.display.Sprite;
 	import net.flashpunk.Sfx;
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Spritemap;

@@ -37,9 +37,11 @@ package
 		
 		private var freeCamera:Boolean;
 		
+		private var exitEnabled:Boolean = true;
 		private var gameEndTime:Number;
 		private var highScores:Array;
 		private var shownScores:Boolean = false;
+		private var shownGameOverTitle:Boolean = false;
 		
 		private var nextFGspawn:Number;
 		private var betweenSpawns:Number; // max time between FG spawns
@@ -76,7 +78,7 @@ package
 			players = new Array();
 			for (var p:int = 1; p <= numPlayers; p++)
 			{
-				var pl:Player = new Player(p, 3, false, mode);
+				var pl:Player = new Player(p, 0, false, mode);
 				
 				var si:int = Player.whichStartPoint(p, gameMode);
 				pl.x = FP.world.camera.x + (Player.START_POINTS[si] as Point).x;
@@ -97,27 +99,27 @@ package
 			
 			//var m:Missiles = new Missiles();
 			//var m:LittleLaser = new LittleLaser();
-			var m:LightningGun = new LightningGun();
+			//var m:LightningGun = new LightningGun();
 			//var m:AutoLaser = new AutoLaser();
-			m.x = 400;
-			m.y = 300;
-			add(m);
+			//m.x = 400;
+			//m.y = 300;
+			//add(m);
 			//
 			//
 			//var m2:AutoLaser = new AutoLaser();
 			//var m2:Missiles = new Missiles();
-			var m2:LittleLaser = new LittleLaser();
-			m2.x = 500;
-			m2.y = 300;
-			add(m2);
+			//var m2:LittleLaser = new LittleLaser();
+			//m2.x = 500;
+			//m2.y = 300;
+			//add(m2);
 			//
 			//
-			var m3:LittleLaser = new LittleLaser();
+			//var m3:LittleLaser = new LittleLaser();
 			//var m3:AutoLaser = new AutoLaser();
 			//var m3:LightningGun = new LightningGun();
-			m3.x = 600;
-			m3.y = 300;
-			add(m3);
+			//m3.x = 600;
+			//m3.y = 300;
+			//add(m3);
 			
 			/*
 			var e:Enemy = new Enemy(1);
@@ -149,6 +151,11 @@ package
 			if (Input.released(Key.F1))
 				freeCamera = !freeCamera;
 			
+			if (Input.released(Key.ESCAPE) && exitEnabled)
+			{
+				FP.world = new Menu();
+			}
+				
 			if (freeCamera)
 			{
 				if (Input.check(Key.NUMPAD_8))
@@ -196,14 +203,14 @@ package
 			{
 				if (player.lives < 0 && !player.hasDied)
 				{
-					
-					
 					loadHighScores();
 					player.hasDied = true;
 	
 					var goodEnoughForPosterity:Boolean = placementInScoreTable(player.score) <= MAX_HIGH_SCORES;
 					if (goodEnoughForPosterity)
 					{
+						exitEnabled = false;
+						
 						var ix:int = 425;
 						var iy:int = 300;
 						
@@ -256,7 +263,7 @@ package
 		}
 		
 		protected function gameOver():Boolean
-		{	
+		{		
 			if (gameMode == MODE_SINGLE)
 				return (players[1] as Player).lives < 0;
 			else
@@ -268,6 +275,33 @@ package
 		
 		private function showHighScores():void
 		{
+			
+			if (!shownGameOverTitle)
+			{
+				shownGameOverTitle = true;
+				
+				var big:Text = new Text('Game Over', 0, 0, 400, 100);
+				big.size = 75;
+				big.color = 0xff9000;
+				
+				var small:Text = new Text('You died. Way to go.', 0, 0, 550, 75);
+				small.size = 50;
+				small.color = 0xff9000;
+				
+				var e:GameEntity = new GameEntity();
+				e.x = 312;
+				e.y = camera.y;
+				e.graphic = big;
+				add(e);
+				
+				e = new GameEntity();
+				e.x = 237;
+				e.y = camera.y + 80;
+				e.graphic = small;
+				add(e);
+			}
+			
+			
 			var doneInitials:Boolean = false;
 			if (gameMode == MODE_SINGLE)
 			{
@@ -279,6 +313,8 @@ package
 			
 			if (doneInitials && !shownScores)
 			{
+				exitEnabled = true;
+				
 				for each (var player:Player in players)
 				{
 					if (player.initialer)
@@ -294,7 +330,7 @@ package
 				for (var i:int = 0; i < Math.min(highScores.length, MAX_HIGH_SCORES); i++)
 				{
 					highScores[i].x = 260;
-					highScores[i].y = camera.y + 150 + i * 50;
+					highScores[i].y = camera.y + 200 + i * 50;
 					add(highScores[i]);
 				}
 			}

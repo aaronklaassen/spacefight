@@ -209,7 +209,6 @@ package
 				
 				FP.world.add(new Explosion(Explosion.SIZE_MED, x, y));
 				FP.world.remove(this);
-				//FP.world.removeList(weapons);
 				
 				if (lives > 0)
 				{
@@ -249,7 +248,8 @@ package
 					FP.world.add(resurrected);
 					(FP.world as Gamespace).setPlayer(playerNum, resurrected);
 				} else {
-					trace('player ' + playerNum + ' dead.');
+					FP.world.removeList(weapons);
+					//trace('player ' + playerNum + ' dead.');
 					lives = -1;
 				}
 				
