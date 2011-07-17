@@ -8,8 +8,8 @@
 	[SWF(width='1024', height='768', backgroundColor='#000000', frameRate='60')]
 	public class Main extends Engine 
 	{
-		//public static const PLATFORM:String = 'PC';
-		public static const PLATFORM:String = 'WINNITRON';
+		public static const PLATFORM:String = 'PC';
+		//public static const PLATFORM:String = 'WINNITRON';
 		
 		private static var _gametime:Number;
 		private static var _loopcount:uint;

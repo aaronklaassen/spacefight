@@ -24,12 +24,20 @@ package
 		private var floatdX:Number = -0.2;
 		private var floatdY:Number = -1;
 		
+		protected var lifetime:Number;
+		protected var createdAt:Number;
+		protected var flashDelta:Number = 0.1;
+		
+		
 		public function Item(own:GameEntity = null) 
 		{
 			super();
 			owner = own;
 			ySpeed = Gamespace.SCROLL_SPEED;
 			layer = LAYER_PLAYERS + 1;
+			
+			lifetime = 7;
+			createdAt = Main.gametime;
 			
 			pickupSound = new Sfx(DEFAULT_PICKUP);
 		}
@@ -65,6 +73,17 @@ package
 					floatdY = -floatdY;
 				}
 				icon.y = Math.sqrt(floatRadius * floatRadius - icon.x * icon.x) * floatdY;
+			
+				
+				var age:Number = Main.gametime - createdAt;
+				icon.alpha += flashDelta * age / lifetime;
+				if (icon.alpha <= 0.3 || icon.alpha >= 1)
+					flashDelta = -flashDelta;
+				
+				if (age >= lifetime && icon.alpha <= 0.3)
+				{
+					FP.world.remove(this);
+				}
 			}
 		}
 		
