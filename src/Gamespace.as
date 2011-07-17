@@ -308,7 +308,7 @@ package
 			
 			for (var i:int = 0; i < highScores.length; i++)
 			{
-				if (newScore.points > highScores[i].points)
+				if (newScore.score > highScores[i].score)
 				{
 					insertIndex = i;
 					break;

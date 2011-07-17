@@ -27,7 +27,6 @@
 			//FP.world = new Gamespace(2);
 			pauseGame = false;
 			FP.world = new Menu(this);
-			//FP.world = new EndGame(Gamespace.MODE_SINGLE, 1000);
 		}
 		
 		public static function fps():int
