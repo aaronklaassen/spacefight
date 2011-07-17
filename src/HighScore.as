@@ -40,7 +40,7 @@ package
 			var json:Object = JSON.decode(jsonData);
 			
 			var list:Array = new Array();
-			for each (var hscore in json.scores)
+			for each (var hscore:Object in json.scores)
 			{
 				list.push(new HighScore(hscore.name, hscore.score));
 			}
