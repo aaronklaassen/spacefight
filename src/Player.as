@@ -127,15 +127,16 @@ package
 		
 		private function initControls():void
 		{
-			// TODO: if winnitron
-			if (playerNum == 1)
+			if ( (Main.PLATFORM == 'PC' && playerNum == 1) ||
+				 (Main.PLATFORM == 'WINNITRON' && playerNum == 2))
 			{
 				KEY_UP = Key.UP;
 				KEY_DOWN = Key.DOWN;
 				KEY_LEFT = Key.LEFT;
 				KEY_RIGHT = Key.RIGHT;
 				KEY_FIRE = Key.ENTER;
-			} else if (playerNum == 2) {
+			} else if ( (Main.PLATFORM == 'PC' && playerNum == 2) ||
+						(Main.PLATFORM == 'WINNITRON' && playerNum == 1)) {
 				KEY_UP = Key.W;
 				KEY_DOWN = Key.S;
 				KEY_LEFT = Key.A;
@@ -214,7 +215,7 @@ package
 				{
 					var resurrected:Player = new Player(playerNum, lives - 1, true);
 					
-					var si:int = (FP.world as Gamespace).playerCount == 1 ? 0 : playerNum;
+					var si:int = Player.whichStartPoint(playerNum, (FP.world as Gamespace).gameMode);
 					resurrected.x = FP.world.camera.x + (Player.START_POINTS[si] as Point).x;
 					resurrected.y = FP.world.camera.y + (Player.START_POINTS[si] as Point).y;
 					
@@ -329,6 +330,19 @@ package
 		{
 			var duration:int = 3;
 			return Main.gametime > duration && Main.gametime <= spawnTime + duration;
+		}
+		
+		public static function whichStartPoint(pNum:int, gameMode:int):int
+		{
+			if (gameMode == Gamespace.MODE_SINGLE)
+			{
+				return 0;
+			} else {
+				if (Main.PLATFORM == 'PC')
+					return pNum;
+				else
+					return pNum == 1 ? 2 : 1;
+			}
 		}
 		
 	}

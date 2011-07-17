@@ -28,14 +28,24 @@ package
 		private var points:Text;
 		private var lives:Spritemap;
 		
+		private var side:String;
+		
 		public function HUD(player:Player, gameMode:int) 
 		{
 			this.player = player;
 			
+			if ((Main.PLATFORM == 'PC' && player.playerNum == 1) ||
+				(Main.PLATFORM == 'WINNITRON' && player.playerNum == 2))
+			{
+				side = 'RIGHT';
+			} else {
+				side = 'LEFT';
+			}
+			
 			initSprite();
 			setHitbox(sprite.width, sprite.height);
 			
-			if (player.playerNum == 1) // right side
+			if (side == 'RIGHT')
 				x = FP.screen.width - width;
 			
 				
@@ -49,19 +59,19 @@ package
 			points.size = 32;
 			points.color = 0xff9000;
 			
-			if (player.playerNum == 1)
+			if (side == 'RIGHT')
 			{
 				// right side
 				//weaponBox.x = x - 40;
 				lives.x = x - 30;
 			} else {
 				//weaponBox.x = x + 62;	
-				lives.x = x + 52;
+				lives.x = x + 62;
 			}
 			
 			if (gameMode == Gamespace.MODE_VS)
 			{
-				if (player.playerNum == 1)
+				if (side == 'RIGHT')
 					points.x = x + width - points.width - 20;
 				else
 					points.x = 5;

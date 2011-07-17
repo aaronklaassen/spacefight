@@ -66,7 +66,8 @@ package
 			freeCamera = false;
 			
 			nextFGspawn = 1; // increase this to add some delay before the first one
-			betweenSpawns = 10;
+			betweenSpawns = gameMode == MODE_SINGLE ? 10 : 6;
+			
 			recentSpawnRects = new Array();
 			
 			playerCount = numPlayers;
@@ -75,10 +76,9 @@ package
 			players = new Array();
 			for (var p:int = 1; p <= numPlayers; p++)
 			{
-				var pl:Player = new Player(p, 0, false, mode);
+				var pl:Player = new Player(p, 3, false, mode);
 				
-				var si:int = playerCount == 1 ? 0 : p;
-				
+				var si:int = Player.whichStartPoint(p, gameMode);
 				pl.x = FP.world.camera.x + (Player.START_POINTS[si] as Point).x;
 				pl.y = FP.world.camera.y + (Player.START_POINTS[si] as Point).y;
 				
