@@ -40,6 +40,7 @@ package
 			
 			sprite.play('normal');
 			graphic = sprite;
+
 		}
 		
 	}

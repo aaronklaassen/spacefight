@@ -62,6 +62,9 @@ package
 		override public function update():void
 		{
 			super.update();
+			
+			
+			
 			if (!onCamera && y > FP.world.camera.y)
 			{
 				FP.world.remove(this);
@@ -81,8 +84,7 @@ package
 				}
 			}
 			
-			if (onCamera && Main.gametime >= nextFiringTime)
-			{
+			if (onCamera && Main.gametime >= nextFiringTime) {
 				sprite.play('fire');
 				fireWeapon();
 				nextFiringTime = Main.gametime + _firingDelay;

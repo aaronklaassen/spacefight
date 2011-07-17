@@ -28,9 +28,14 @@ package
 		public static const MODE_COOP:int = 1;
 		public static const MODE_VS:int = 2;
 		
+		public static const MAX_HIGH_SCORES:int = 10;
+		
 		private var freeCamera:Boolean;
 		
 		private var gameEndTime:Number;
+		private var highScores:Array;
+		private var shownScores:Boolean = false;
+		
 		private var nextFGspawn:Number;
 		private var betweenSpawns:Number; // max time between FG spawns
 		private var recentSpawnRects:Array;
@@ -63,7 +68,7 @@ package
 			players = new Array();
 			for (var p:int = 1; p <= numPlayers; p++)
 			{
-				var pl:Player = new Player(p, 1, false, mode);
+				var pl:Player = new Player(p, 0, false, mode);
 				
 				var si:int = playerCount == 1 ? 0 : p;
 				
@@ -78,6 +83,9 @@ package
 				w.pickup();
 				add(w);
 			}
+			
+			
+			players[1].score = 1540001; // TODO: temp test
 			
 			
 			//var m:Missiles = new Missiles();
@@ -169,28 +177,48 @@ package
 			}
 			
 			
-			if (gameOver())
+			
+			
+			// If a player has died, check if their score is high enough to be in the
+			// high score table, and ask them for initials if so.
+			for each (var player:Player in players)
 			{
-				if (!gameEndTime)
-					gameEndTime = Main.gametime;
-					
-				var score1:int = (players[1] as Player).score;
-				var score2:int = gameMode == MODE_SINGLE ? 0 : (players[2] as Player).score;
-				if (gameEndTime + 5 <= Main.gametime)
+				if (player.lives < 0 && !player.hasDied)
 				{
-					FP.world = new EndGame(gameMode, score1, score2);
-				} else {
-					/*
-					var overText:Text = new Text('Game Over!', FP.camera.x, FP.camera.y, 200, 50);
-					overText.size = 30;
-					overText.color = 0xFF0000;
-					add(overText);
-					*/
+					
+					
+					highScores = getHighScores();
+					player.hasDied = true;
+	
+					var goodEnoughForPosterity:Boolean = placementInScoreTable(player.score) <= MAX_HIGH_SCORES;
+					if (goodEnoughForPosterity)
+					{
+						var ix:int = 425;
+						var iy:int = 300;
+						
+						if (gameMode != MODE_SINGLE)
+						{
+							if (Main.PLATFORM == 'PC')
+								ix = player.playerNum == 1 ? 683 : 170;
+							else
+								ix = player.playerNum == 1 ? 170 : 683;
+						}
+						
+						player.initialer = new Initialer(player.playerNum, ix, camera.y + iy, true);
+						add(player.initialer);
+					}
 				}
 			}
+			
+			
+			
+			if (gameOver())
+			{
+				showHighScores();
+			}
+			
+		
 		}
-		
-		
 		
 		public function get playerCount():int
 		{
@@ -217,13 +245,107 @@ package
 			players[playerNum] = player;
 		}
 		
-		private function gameOver():Boolean
-		{
+		protected function gameOver():Boolean
+		{	
 			if (gameMode == MODE_SINGLE)
 				return (players[1] as Player).lives < 0;
 			else
 				return (players[1] as Player).lives < 0 && (players[2] as Player).lives < 0;
 				
+		}
+		
+		
+		
+		private function showHighScores():void
+		{
+			var doneInitials:Boolean = false;
+			if (gameMode == MODE_SINGLE)
+			{
+				doneInitials = !players[1].initialer || (players[1].initialer && players[1].initialer.enteredString != null);
+			} else {
+				doneInitials = (!players[1].initialer || (players[1].initialer && players[1].initialer.enteredString != null)) &&
+								!players[2].initialer || (players[2].initialer && players[2].initialer.enteredString != null);
+			}
+			
+			if (doneInitials && !shownScores)
+			{
+				for each (var player:Player in players)
+				{
+					if (player.initialer)
+					{
+						insertHighScore(new HighScore(player.initialer.enteredString, player.score));
+					}
+				}
+
+				saveHighScores();
+				// TODO Uncomment this once the save/load actually works.
+				// highScores = getHighScores(); // They may have changed since last time.
+				
+				shownScores = true;
+				for (var i:int = 0; i < Math.min(highScores.length, MAX_HIGH_SCORES); i++)
+				{
+					highScores[i].x = 260;
+					highScores[i].y = camera.y + 150 + i * 50;
+					add(highScores[i]);
+				}
+			}
+		}
+		
+		private function placementInScoreTable(playerScore:int):int
+		{
+			for (var i:int = 0; i < highScores.length; i++)
+			{
+				if (playerScore > highScores[i].points)
+					return i + 1;
+			}
+			
+			return highScores.length + 1;
+		}
+		
+		private function insertHighScore(newScore:HighScore):void
+		{
+			var insertIndex:int = -1;
+			
+			for (var i:int = 0; i < highScores.length; i++)
+			{
+				if (newScore.points > highScores[i].points)
+				{
+					insertIndex = i;
+					break;
+				}
+			}
+			
+			if (insertIndex != -1)
+			{
+				for (var j:int = highScores.length - 1; j > insertIndex; j--)
+				{
+					highScores[j] = highScores[j - 1];
+				}
+				highScores[insertIndex] = newScore;
+			}
+		}
+		
+		private function getHighScores():Array
+		{
+			// TODO
+			var scores:Array = new Array();
+			scores[0] = new HighScore('A__', 1900001);
+			scores[1] = new HighScore('B__', 1800001);
+			scores[2] = new HighScore('C__', 1700001);
+			scores[3] = new HighScore('D__', 1600001);
+			scores[4] = new HighScore('E__', 1500001);
+			scores[5] = new HighScore('F__', 1400001);
+			scores[6] = new HighScore('G__', 1300001);
+			scores[7] = new HighScore('H__', 1200001);
+			scores[8] = new HighScore('I__', 1100001);
+			scores[9] = new HighScore('J__', 1000001);
+			
+			return scores;
+		}
+		
+		private function saveHighScores():void
+		{
+			// TODO
 		}
 		
 	}

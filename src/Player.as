@@ -41,6 +41,9 @@ package
 		private var _score:int;
 		public var lives:int;
 		
+		public var hasDied:Boolean = false;
+		public var initialer:Initialer;
+		
 		
 		private var lastEnemyCollision:Number;
 		
@@ -66,7 +69,7 @@ package
 			_maxHealth = 100;
 			_health = 100;
 			_maxShields = 300;
-			_shields = 300;
+			_shields = 0;
 			shieldRegenRate = 1;
 			shieldFrameOffset = 14;
 			score = 0;
@@ -271,7 +274,9 @@ package
 			var newLifeEvery:int = 50000;
 			if (Math.floor(newScore / newLifeEvery) > Math.floor(_score / newLifeEvery))
 			{
-				lives++;
+				// TODO BUGGY AS FUCK
+				//lives++;
+				
 				// TODO: play a sweet sound
 			}
 			
