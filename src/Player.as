@@ -271,7 +271,7 @@ package
 		
 		public function set score(newScore:int):void
 		{
-			var newLifeEvery:int = 50000;
+			var newLifeEvery:int = 100000;
 			if (Math.floor(newScore / newLifeEvery) > Math.floor(_score / newLifeEvery))
 			{
 				// TODO BUGGY AS FUCK

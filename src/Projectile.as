@@ -20,10 +20,15 @@ package
 		protected var hitSound:Sfx;
 		
 		public var rotating:Boolean;
+		public var flashing:Boolean;
+		private var flashDelta:Number = -0.03;
+		
 		
 		public function Projectile(spritemap:Spritemap, startLoc:Point, owner:GameEntity, xs:int, ys:int, dam:int) 
 		{
 			super();
+			
+			
 
 			if (owner)
 			{
@@ -64,6 +69,7 @@ package
 		override public function update():void
 		{
 			super.update();
+			
 			if (onCamera)
 			{
 				var victim:GameEntity = collide(collidesWith, x, y) as GameEntity;
@@ -78,6 +84,13 @@ package
 				if (rotating)
 				{
 					sprite.angle = (sprite.angle + 10) % 360;
+				}
+				
+				if (flashing)
+				{
+					sprite.alpha += flashDelta;
+					if (sprite.alpha <= 0.6 || sprite.alpha == 1)
+						flashDelta = -flashDelta;
 				}
 				
 			} else {

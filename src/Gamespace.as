@@ -91,25 +91,25 @@ package
 			//var m:Missiles = new Missiles();
 			//var m:LittleLaser = new LittleLaser();
 			//var m:LightningGun = new LightningGun();
-			var m:AutoLaser = new AutoLaser();
-			m.x = 400;
-			m.y = 300;
-			add(m);
-			
-			
-			var m2:AutoLaser = new AutoLaser();
+			//var m:AutoLaser = new AutoLaser();
+			//m.x = 400;
+			//m.y = 300;
+			//add(m);
+			//
+			//
+			//var m2:AutoLaser = new AutoLaser();
 			//var m2:Missiles = new Missiles();
 			//var m2:LittleLaser = new LittleLaser();
-			m2.x = 500;
-			m2.y = 300;
-			add(m2);
-			
-			
-			var m3:AutoLaser = new AutoLaser();
+			//m2.x = 500;
+			//m2.y = 300;
+			//add(m2);
+			//
+			//
+			//var m3:AutoLaser = new AutoLaser();
 			//var m3:LightningGun = new LightningGun();
-			m3.x = 600;
-			m3.y = 300;
-			add(m3);
+			//m3.x = 600;
+			//m3.y = 300;
+			//add(m3);
 			
 			/*
 			var e:Enemy = new Enemy(1);

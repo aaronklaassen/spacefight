@@ -29,8 +29,8 @@ package
 			icon.add('hud_2', [2], 1, true);
 			graphic = icon;
 			
-			_cooldown = 0.1;
-			damage = 10;
+			_cooldown = 0.17;
+			damage = 7;
 			projectileSpeed = -750;
 			
 			if (owner && owner is Enemy)

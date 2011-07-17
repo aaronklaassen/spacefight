@@ -25,7 +25,8 @@ package
 			_maxHealth = 500;
 			_health = _maxHealth;
 			pointValue = 200;
-			damage = 20;
+			
+			damage = 40;
 			projSpawnPoints = new Array(new Point(0, 90));
 			shieldFrameOffset = 1;
 			

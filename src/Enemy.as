@@ -25,6 +25,7 @@ package
 		protected var _firingDelay:Number;
 		protected var nextFiringTime:Number;
 		protected var firingSound:Sfx;
+		protected var projectileColor:uint;
 		
 		protected var enemyType:int;
 		protected var pointValue:int;
@@ -44,7 +45,6 @@ package
 			_maxHealth = 100;
 			_health = 100;
 			pointValue = 100;
-			damage = 5;
 			//min_shield_alpha = 0.3;
 			firingSound = new Sfx(LASER_SND);
 		}
@@ -115,10 +115,10 @@ package
 				spr = new Spritemap(LASER_PROJ, 10, 36);
 				spr.add('normal', [0]);
 				spr.play('normal');
-				spr.color = 0xff3c3c;
+				spr.color = projectileColor;
 				
 				p = new Projectile(spr, projSpawnPoints[j] as Point, this, 0, speed, damage);
-				
+				p.flashing = true;
 				
 				FP.world.add(p);
 			}
@@ -142,10 +142,10 @@ package
 		{
 			var item:Item;
 			
-			var type:int = Main.random(1, 5);
+			var type:int = Main.random(1, 7);
 			if (type == 1) // drop a weapon
 			{
-				var w:int = Main.random(1, 4);
+				var w:int = Main.random(1, 5);
 				
 				if (w == 1)
 					item = new Missiles();

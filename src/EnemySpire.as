@@ -22,6 +22,8 @@ package
 			initSprite();
 			setHitbox(sprite.width, sprite.height);
 			
+			projectileColor = 0xff9000;
+			damage = 20;
 			shieldFrameOffset = 1;
 			_maxShields = 800;
 			_shields = 800;

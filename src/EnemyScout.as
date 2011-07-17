@@ -22,6 +22,8 @@ package
 			initSprite();
 			setHitbox(sprite.width, sprite.height);
 			
+			damage = 10;
+			projectileColor = 0xff0000;
 			shieldFrameOffset = 1;
 			
 			projSpawnPoints = new Array(new Point(3, 35),
