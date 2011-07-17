@@ -35,7 +35,7 @@ package
 			pointsSprite.alpha = 0;
 		}
 		
-		public static function listFromJSON(jsonData:String):Array
+		public static function arrayFromJSON(jsonData:String):Array
 		{
 			var json:Object = JSON.decode(jsonData);
 			

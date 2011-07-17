@@ -1,10 +1,15 @@
 package  
 {
+	import flash.events.Event;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	import flash.net.URLLoaderDataFormat;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Text;
 	import net.flashpunk.Sfx;
+	import net.flashpunk.utils.Data;
 	import net.flashpunk.World;
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Backdrop;
@@ -51,6 +56,8 @@ package
 		
 		public function Gamespace(numPlayers:int = 1, mode:int = MODE_SINGLE) 
 		{
+			loadHighScores();
+			
 			Main.resetGametime();
 			addGraphic(new Backdrop(STARFIELD), LAYER_BACKGROUND);
 			bgMusic = new Sfx(MUSIC);
@@ -190,7 +197,7 @@ package
 				{
 					
 					
-					highScores = getHighScores();
+					loadHighScores();
 					player.hasDied = true;
 	
 					var goodEnoughForPosterity:Boolean = placementInScoreTable(player.score) <= MAX_HIGH_SCORES;
@@ -281,8 +288,7 @@ package
 				}
 
 				saveHighScores();
-				// TODO Uncomment this once the save/load actually works.
-				// highScores = getHighScores(); // They may have changed since last time.
+				loadHighScores(); // They may have changed since last time.
 				
 				shownScores = true;
 				for (var i:int = 0; i < Math.min(highScores.length, MAX_HIGH_SCORES); i++)
@@ -328,29 +334,41 @@ package
 			}
 		}
 		
-		private function getHighScores():Array
-		{
-			// TODO
-			var scores:Array = new Array();
-			scores[0] = new HighScore('A__', 1900001);
-			scores[1] = new HighScore('B__', 1800001);
-			scores[2] = new HighScore('C__', 1700001);
-			scores[3] = new HighScore('D__', 1600001);
-			scores[4] = new HighScore('E__', 1500001);
-			scores[5] = new HighScore('F__', 1400001);
-			scores[6] = new HighScore('G__', 1300001);
-			scores[7] = new HighScore('H__', 1200001);
-			scores[8] = new HighScore('I__', 1100001);
-			scores[9] = new HighScore('J__', 1000001);
+		private function loadHighScores():void
+		{	
+			//var scores:Array = new Array();
+			//scores[0] = new HighScore('A__', 1900001);
+			//scores[1] = new HighScore('B__', 1800001);
+			//scores[2] = new HighScore('C__', 1700001);
+			//scores[3] = new HighScore('D__', 1600001);
+			//scores[4] = new HighScore('E__', 1500001);
+			//scores[5] = new HighScore('F__', 1400001);
+			//scores[6] = new HighScore('G__', 1300001);
+			//scores[7] = new HighScore('H__', 1200001);
+			//scores[8] = new HighScore('I__', 1100001);
+			//scores[9] = new HighScore('J__', 1000001);
 			
-			return scores;
+			if (Main.PLATFORM == 'PC')
+			{
+				var myLoader:URLLoader = new URLLoader()
+				myLoader.load(new URLRequest("highscores.json"))
+				myLoader.addEventListener(Event.COMPLETE, function(e:Event):void { 
+					highScores = HighScore.arrayFromJSON(e.target.data);
+				});
+			}
+			
+			if (Main.PLATFORM == 'WINNITRON')
+			{
+				// TODO
+			}
 		}
 		
 		private function saveHighScores():void
 		{
+			var json:String = HighScore.arrayToJSON(highScores);
+			
 			// TODO
 		}
-		
 	}
 
 }
