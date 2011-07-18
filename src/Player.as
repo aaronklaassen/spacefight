@@ -8,7 +8,6 @@ package
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.FP;
-	import net.flashpunk.utils.Draw;
 	
 	import flash.display.Bitmap;
 	
@@ -24,7 +23,7 @@ package
 		[Embed(source = '../assets/sounds/alarm.mp3')]
 		public static const ALARM:Class;
 		
-		public static const START_POINTS:Array = new Array(new Point(480, 640), new Point(720, 640), new Point(210, 640));
+		public static const START_POINTS:Array = new Array(new Point(480, 1440), new Point(720, 1440), new Point(210, 1440));
 		private static const MAX_SPEED:Number = 450; // pix/sec
 		
 		private var KEY_UP:int;
@@ -64,7 +63,7 @@ package
 			initControls();
 			
 			lastEnemyCollision = 0;
-			cameraBound = true;
+			cameraBound = false;
 			layer = LAYER_PLAYERS;
 			
 			mask = new Pixelmask(PLANE);
@@ -157,7 +156,13 @@ package
 		
 		override public function update():void
 		{
-			checkInput();
+			if (Main.gametime - spawnTime < 3)
+			{
+				ySpeed = -300;
+			} else {
+				cameraBound = true;
+				checkInput();
+			}
 			super.update();
 
 			if (invulnerable)
@@ -205,6 +210,10 @@ package
 		
 			if (health <= 0)
 			{
+				var min:int = Main.gametime / 60;
+				var sec:int = Main.gametime % 60;
+				trace('Death at: ' + min + ':' + sec);
+				
 				alarmSiren.stop();
 				
 				FP.world.add(new Explosion(Explosion.SIZE_MED, x, y));
@@ -248,6 +257,7 @@ package
 					FP.world.add(resurrected);
 					(FP.world as Gamespace).setPlayer(playerNum, resurrected);
 				} else {
+				
 					FP.world.removeList(weapons);
 					//trace('player ' + playerNum + ' dead.');
 					lives = -1;
@@ -350,7 +360,7 @@ package
 		
 		override public function get invulnerable():Boolean
 		{
-			var duration:int = 3;
+			var duration:int = 6;
 			return Main.gametime > duration && Main.gametime <= spawnTime + duration;
 		}
 		

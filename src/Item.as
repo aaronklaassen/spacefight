@@ -37,7 +37,7 @@ package
 			ySpeed = Gamespace.SCROLL_SPEED;
 			layer = LAYER_PLAYERS + 1;
 			
-			lifetime = 7;
+			lifetime = 8;
 			createdAt = Main.gametime;
 			
 			pickupSound = new Sfx(DEFAULT_PICKUP);

@@ -84,7 +84,7 @@ package
 		{
 			super.render();
 			
-			if (fireTick > 0 && Main.ticks < fireTick + 8)
+			if (owner && fireTick > 0 && Main.ticks < fireTick + 8)
 			{
 				Draw.line(owner.x + owner.halfWidth, owner.y + owner.halfHeight, endX, endY, 0xf03e3e);
 				Draw.line(owner.x + owner.halfWidth, owner.y + owner.halfHeight - 1, endX, endY - 1, 0xea6262);
