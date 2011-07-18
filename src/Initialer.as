@@ -63,19 +63,21 @@ package
 		
 		private function initControls():void
 		{
-			if (playerNum == 1)
+			if ( (Main.PLATFORM == 'PC' && playerNum == 1) ||
+				 (Main.PLATFORM == 'WINNITRON' && playerNum == 2))
 			{
 				KEY_UP = Key.UP;
 				KEY_DOWN = Key.DOWN;
 				KEY_LEFT = Key.LEFT;
 				KEY_RIGHT = Key.RIGHT;
-				KEY_ENTER = Key.ENTER;
-			} else if (playerNum == 2) {
+				KEY_FIRE = Key.ENTER;
+			} else if ( (Main.PLATFORM == 'PC' && playerNum == 2) ||
+						(Main.PLATFORM == 'WINNITRON' && playerNum == 1)) {
 				KEY_UP = Key.W;
 				KEY_DOWN = Key.S;
 				KEY_LEFT = Key.A;
 				KEY_RIGHT = Key.D;
-				KEY_ENTER = Key.SPACE;
+				KEY_FIRE = Key.SPACE;
 			}
 		}
 		
