@@ -323,7 +323,12 @@ package
 					}
 				}
 
-				saveHighScores();
+				if (Main.PLATFORM == 'PC')
+					saveHighScores();
+				else if (Main.PLATFORM == 'WINNITRON')
+					sendHighScore(player.initialer.enteredString, player.score);
+					
+					
 				loadHighScores(); // They may have changed since last time.
 				
 				shownScores = true;
@@ -376,38 +381,36 @@ package
 		
 		private function loadHighScores():void
 		{	
-			//var scores:Array = new Array();
-			//scores[0] = new HighScore('A__', 1900001);
-			//scores[1] = new HighScore('B__', 1800001);
-			//scores[2] = new HighScore('C__', 1700001);
-			//scores[3] = new HighScore('D__', 1600001);
-			//scores[4] = new HighScore('E__', 1500001);
-			//scores[5] = new HighScore('F__', 1400001);
-			//scores[6] = new HighScore('G__', 1300001);
-			//scores[7] = new HighScore('H__', 1200001);
-			//scores[8] = new HighScore('I__', 1100001);
-			//scores[9] = new HighScore('J__', 1000001);
-			
+			var location:String;
 			if (Main.PLATFORM == 'PC')
 			{
-				var myLoader:URLLoader = new URLLoader()
-				myLoader.load(new URLRequest("highscores.json"))
-				myLoader.addEventListener(Event.COMPLETE, function(e:Event):void { 
-					highScores = HighScore.arrayFromJSON(e.target.data);
-				});
+				location = "highscores.json";
 			}
 			
 			if (Main.PLATFORM == 'WINNITRON')
 			{
-				// TODO
+				location = "http://localhost/winnitron/highscores/get.php?id=ID_GAME&type=json&order=DESC&limit=10"
 			}
+			
+			var myLoader:URLLoader = new URLLoader()
+			myLoader.load(new URLRequest(location))
+			myLoader.addEventListener(Event.COMPLETE, function(e:Event):void { 
+				highScores = HighScore.arrayFromJSON(e.target.data);
+			});
 		}
 		
 		private function saveHighScores():void
 		{
 			var json:String = HighScore.arrayToJSON(highScores);
 			
-			// TODO
+			// TODO. PC.
+		}
+		
+		private function sendHighScore(name:String, score:int):void
+		{
+			var url:String = "http://localhost/winnitron/highscores/send.php?id=ID_GAME&name=" + name + "&value=" + score;
+			var myLoader:URLLoader = new URLLoader()
+			myLoader.load(new URLRequest(url))
 		}
 	}
 

@@ -23,7 +23,7 @@ package
 		[Embed(source = '../assets/sounds/alarm.mp3')]
 		public static const ALARM:Class;
 		
-		public static const START_POINTS:Array = new Array(new Point(480, 1440), new Point(720, 1440), new Point(210, 1440));
+		public static const START_POINTS:Array = new Array(new Point(480, 1140), new Point(720, 1140), new Point(210, 1140));
 		private static const MAX_SPEED:Number = 450; // pix/sec
 		
 		private var KEY_UP:int;
@@ -156,7 +156,7 @@ package
 		
 		override public function update():void
 		{
-			if (Main.gametime - spawnTime < 3)
+			if (Main.gametime - spawnTime < 2)
 			{
 				ySpeed = -300;
 			} else {
@@ -242,7 +242,7 @@ package
 							weapons[i].ySpeed = -weapons[i].ySpeed;
 					}
 					
-					var resurrected:Player = new Player(playerNum, lives - 1, true);
+					var resurrected:Player = new Player(playerNum, lives - 1, true, (FP.world as Gamespace).gameMode);
 					
 					var si:int = Player.whichStartPoint(playerNum, (FP.world as Gamespace).gameMode);
 					resurrected.x = FP.world.camera.x + (Player.START_POINTS[si] as Point).x;

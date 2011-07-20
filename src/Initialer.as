@@ -70,14 +70,14 @@ package
 				KEY_DOWN = Key.DOWN;
 				KEY_LEFT = Key.LEFT;
 				KEY_RIGHT = Key.RIGHT;
-				KEY_FIRE = Key.ENTER;
+				KEY_ENTER = Key.ENTER;
 			} else if ( (Main.PLATFORM == 'PC' && playerNum == 2) ||
 						(Main.PLATFORM == 'WINNITRON' && playerNum == 1)) {
 				KEY_UP = Key.W;
 				KEY_DOWN = Key.S;
 				KEY_LEFT = Key.A;
 				KEY_RIGHT = Key.D;
-				KEY_FIRE = Key.SPACE;
+				KEY_ENTER = Key.SPACE;
 			}
 		}
 		
