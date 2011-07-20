@@ -20,7 +20,7 @@ package
 		
 		[Embed(source = '../assets/sounds/menu_select.mp3')]
 		private const BUTTON_SND:Class;
-		
+
 		protected var buttons:Array;
 		protected var selectedIndex:int;
 		private var buttonSound:Sfx;

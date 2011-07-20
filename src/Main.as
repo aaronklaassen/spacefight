@@ -2,19 +2,25 @@
 {
 	import net.flashpunk.Engine;
 	import net.flashpunk.FP;
+	import net.flashpunk.Sfx;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	
 	[SWF(width='1024', height='768', backgroundColor='#000000', frameRate='60')]
 	public class Main extends Engine 
 	{
+		[Embed(source = '../assets/sounds/p0ss-oga-manifest.mp3')]
+		private const MUSIC:Class;
+		
 		public static const PLATFORM:String = 'PC';
 		//public static const PLATFORM:String = 'WINNITRON';
+		
 		
 		private static var _gametime:Number;
 		private static var _loopcount:uint;
 		
 		private var pauseGame:Boolean;
+		private var bgMusic:Sfx;
 		
 		public function Main():void 
 		{
@@ -23,8 +29,10 @@
 		
 		override public function init():void 
 		{
+			bgMusic = new Sfx(MUSIC);
+			bgMusic.loop();
+			
 			_gametime = 0;
-			//FP.world = new Gamespace(2);
 			pauseGame = false;
 			FP.world = new Menu();
 		}

@@ -1,5 +1,6 @@
 package  
 {
+	import flash.events.IOErrorEvent;
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
@@ -23,8 +24,6 @@ package
 	{
 		[Embed(source = '../assets/images/starfield.jpg')]
 		private const STARFIELD:Class;
-		[Embed(source = '../assets/sounds/p0ss-oga-manifest.mp3')]
-		private const MUSIC:Class;
 		
 		public static const LAYER_BACKGROUND:int = 1000;
 		public static const SCROLL_SPEED:Number = 50; // pixels/sec
@@ -54,7 +53,7 @@ package
 		
 		private var players:Array;
 		
-		private var bgMusic:Sfx;
+		
 		
 		public function Gamespace(numPlayers:int = 1, mode:int = MODE_SINGLE) 
 		{
@@ -62,8 +61,6 @@ package
 			
 			Main.resetGametime();
 			addGraphic(new Backdrop(STARFIELD), LAYER_BACKGROUND);
-			bgMusic = new Sfx(MUSIC);
-			bgMusic.loop();
 			
 			freeCamera = false;
 			
@@ -392,10 +389,14 @@ package
 				location = "http://localhost/winnitron/highscores/get.php?id=ID_GAME&type=json&order=DESC&limit=10"
 			}
 			
-			var myLoader:URLLoader = new URLLoader()
-			myLoader.load(new URLRequest(location))
-			myLoader.addEventListener(Event.COMPLETE, function(e:Event):void { 
+			
+			var loader:URLLoader = new URLLoader();
+			loader.load(new URLRequest(location))
+			loader.addEventListener(Event.COMPLETE, function(e:Event):void { 
 				highScores = HighScore.arrayFromJSON(e.target.data);
+			});
+			loader.addEventListener(IOErrorEvent.IO_ERROR, function(e:Event):void {
+				highScores = new Array();
 			});
 		}
 		
